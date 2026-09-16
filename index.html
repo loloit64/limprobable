@@ -190,24 +190,93 @@ try{localStorage.removeItem('ImprobableDeletedFixedVhfDocs');}catch(e){}
 <div class="group"><h3>Historique</h3><div id="maintlist"></div></div></section>
 
 <section id="tech">
+<a class="back" href="#" onclick="closeAllDocumentViewers()">← Accueil</a><h2>Technique</h2>
 <div class="modDocsBox" data-module="tech">
   <h3>Documents du module</h3>
   <div class="modDocsAdd">
     <input type="text" class="modDocTitle" placeholder="Nom du document">
     <button type="button" onclick="pickModuleDoc('tech')">+ Ajouter</button>
-    <input class="modDocFile" id="modDocFile_tech" type="file" accept="image/*,application/pdf"
-           onchange="saveModuleDoc('tech',this)">
+    <input class="modDocFile" id="modDocFile_tech" type="file" accept="image/*,application/pdf" onchange="saveModuleDoc('tech',this)">
   </div>
   <button type="button" class="trashOpen" onclick="openTrash()">🗑 Corbeille</button><div class="modDocsList" id="modDocsList_tech"></div>
 </div>
-<a class="back" href="#" onclick="closeAllDocumentViewers()">← Accueil</a><h2>Technique</h2>
-<div class="item"><b>Bateau :</b> Dufour 32 Classic</div>
-<div class="item"><b>Saildrive :</b> remplacé en 2024</div>
-<div class="item">Moteur — références et manuel à intégrer</div><div class="item">Électricité 12 V — schéma à intégrer</div>
-<div class="item">Gréement & voiles — inventaire à compléter</div><div class="item">Plomberie / passe-coques</div>
-<div class="item">Raymarine / électronique de bord</div></section>
+<div class="techMenu42">
+ <button type="button" class="techRow42" onclick="openTech42('boat')"><b>Bateau :</b> Dufour 32 Classic <span>›</span></button>
+ <button type="button" class="techRow42" onclick="openTech42('saildrive')"><b>Saildrive :</b> remplacé en 2024 <span>›</span></button>
+ <button type="button" class="techRow42" onclick="openTech42('engine')">Moteur — références et manuel <span>›</span></button>
+ <button type="button" class="techRow42" onclick="openTech42('electric')">Électricité 12 V — schémas <span>›</span></button>
+ <button type="button" class="techRow42" onclick="openTech42('rig')">Gréement & voiles <span>›</span></button>
+ <button type="button" class="techRow42" onclick="openTech42('plumbing')">Plomberie / passe-coques <span>›</span></button>
+ <button type="button" class="techRow42" onclick="openTech42('raymarine')">Raymarine / électronique de bord <span>›</span></button>
+</div>
+<div id="techPanels42">
+<div class="techPanel42" id="tech42_boat">
+<button type="button" class="back" onclick="closeTech42()">← Technique</button><h3>Bateau — Dufour 32 Classic</h3>
+<div class="modDocsBox" data-module="tech_boat">
+ <h3>Documents</h3>
+ <div class="modDocsAdd"><input type="text" class="modDocTitle" placeholder="Nom du document">
+ <button type="button" onclick="pickModuleDoc('tech_boat')">+ Ajouter</button>
+ <input class="modDocFile" id="modDocFile_tech_boat" type="file" accept="image/*,application/pdf" onchange="saveModuleDoc('tech_boat',this)"></div>
+ <button type="button" class="trashOpen" onclick="openTrash()">🗑 Corbeille</button>
+ <div class="modDocsList" id="modDocsList_tech_boat"></div>
+</div></div><div class="techPanel42" id="tech42_saildrive">
+<button type="button" class="back" onclick="closeTech42()">← Technique</button><h3>Saildrive</h3>
+<div class="modDocsBox" data-module="tech_saildrive">
+ <h3>Documents</h3>
+ <div class="modDocsAdd"><input type="text" class="modDocTitle" placeholder="Nom du document">
+ <button type="button" onclick="pickModuleDoc('tech_saildrive')">+ Ajouter</button>
+ <input class="modDocFile" id="modDocFile_tech_saildrive" type="file" accept="image/*,application/pdf" onchange="saveModuleDoc('tech_saildrive',this)"></div>
+ <button type="button" class="trashOpen" onclick="openTrash()">🗑 Corbeille</button>
+ <div class="modDocsList" id="modDocsList_tech_saildrive"></div>
+</div></div><div class="techPanel42" id="tech42_engine">
+<button type="button" class="back" onclick="closeTech42()">← Technique</button><h3>Moteur</h3>
+<div class="modDocsBox" data-module="tech_engine">
+ <h3>Documents</h3>
+ <div class="modDocsAdd"><input type="text" class="modDocTitle" placeholder="Nom du document">
+ <button type="button" onclick="pickModuleDoc('tech_engine')">+ Ajouter</button>
+ <input class="modDocFile" id="modDocFile_tech_engine" type="file" accept="image/*,application/pdf" onchange="saveModuleDoc('tech_engine',this)"></div>
+ <button type="button" class="trashOpen" onclick="openTrash()">🗑 Corbeille</button>
+ <div class="modDocsList" id="modDocsList_tech_engine"></div>
+</div></div><div class="techPanel42" id="tech42_electric">
+<button type="button" class="back" onclick="closeTech42()">← Technique</button><h3>Électricité 12 V</h3>
+<div class="modDocsBox" data-module="tech_electric">
+ <h3>Documents</h3>
+ <div class="modDocsAdd"><input type="text" class="modDocTitle" placeholder="Nom du document">
+ <button type="button" onclick="pickModuleDoc('tech_electric')">+ Ajouter</button>
+ <input class="modDocFile" id="modDocFile_tech_electric" type="file" accept="image/*,application/pdf" onchange="saveModuleDoc('tech_electric',this)"></div>
+ <button type="button" class="trashOpen" onclick="openTrash()">🗑 Corbeille</button>
+ <div class="modDocsList" id="modDocsList_tech_electric"></div>
+</div></div><div class="techPanel42" id="tech42_rig">
+<button type="button" class="back" onclick="closeTech42()">← Technique</button><h3>Gréement & voiles</h3>
+<div class="modDocsBox" data-module="tech_rig">
+ <h3>Documents</h3>
+ <div class="modDocsAdd"><input type="text" class="modDocTitle" placeholder="Nom du document">
+ <button type="button" onclick="pickModuleDoc('tech_rig')">+ Ajouter</button>
+ <input class="modDocFile" id="modDocFile_tech_rig" type="file" accept="image/*,application/pdf" onchange="saveModuleDoc('tech_rig',this)"></div>
+ <button type="button" class="trashOpen" onclick="openTrash()">🗑 Corbeille</button>
+ <div class="modDocsList" id="modDocsList_tech_rig"></div>
+</div></div><div class="techPanel42" id="tech42_plumbing">
+<button type="button" class="back" onclick="closeTech42()">← Technique</button><h3>Plomberie / passe-coques</h3>
+<div class="modDocsBox" data-module="tech_plumbing">
+ <h3>Documents</h3>
+ <div class="modDocsAdd"><input type="text" class="modDocTitle" placeholder="Nom du document">
+ <button type="button" onclick="pickModuleDoc('tech_plumbing')">+ Ajouter</button>
+ <input class="modDocFile" id="modDocFile_tech_plumbing" type="file" accept="image/*,application/pdf" onchange="saveModuleDoc('tech_plumbing',this)"></div>
+ <button type="button" class="trashOpen" onclick="openTrash()">🗑 Corbeille</button>
+ <div class="modDocsList" id="modDocsList_tech_plumbing"></div>
+</div></div><div class="techPanel42" id="tech42_raymarine">
+<button type="button" class="back" onclick="closeTech42()">← Technique</button><h3>Raymarine / électronique de bord</h3>
+<div class="modDocsBox" data-module="tech_raymarine">
+ <h3>Documents</h3>
+ <div class="modDocsAdd"><input type="text" class="modDocTitle" placeholder="Nom du document">
+ <button type="button" onclick="pickModuleDoc('tech_raymarine')">+ Ajouter</button>
+ <input class="modDocFile" id="modDocFile_tech_raymarine" type="file" accept="image/*,application/pdf" onchange="saveModuleDoc('tech_raymarine',this)"></div>
+ <button type="button" class="trashOpen" onclick="openTrash()">🗑 Corbeille</button>
+ <div class="modDocsList" id="modDocsList_tech_raymarine"></div>
+</div></div></div></section>
 
 <section id="energy">
+<a class="back" href="#" onclick="closeAllDocumentViewers()">← Accueil</a>
 <div class="modDocsBox" data-module="energy">
   <h3>Documents du module</h3>
   <div class="modDocsAdd">
@@ -218,7 +287,7 @@ try{localStorage.removeItem('ImprobableDeletedFixedVhfDocs');}catch(e){}
   </div>
   <button type="button" class="trashOpen" onclick="openTrash()">🗑 Corbeille</button><div class="modDocsList" id="modDocsList_energy"></div>
 </div>
-<a class="back" href="#" onclick="closeAllDocumentViewers()">← Accueil</a><h2>Énergie</h2>
+<h2>Énergie</h2>
 <input id="batv" type="text" placeholder="Batterie bord : tension / état">
 <input id="eco" type="text" placeholder="EcoFlow : % / autonomie">
 <textarea id="enote" placeholder="Observations énergie"></textarea>
@@ -1739,6 +1808,170 @@ function init38(){
  renderInv38();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init38);else init38();
+})();
+</script>
+
+
+<script>
+/* V2.10.41 — ajout documents iPadOS : lecture directe du file input,
+   sans dépendre des anciens onclick/pending. */
+(function(){
+var cats41=['cat-id','cat-titles','cat-work','cat-ins','cat-engine','cat-sail','cat-elec','cat-exp','cat-equip','cat-training','cat-misc','cat-old'];
+function mod41(c){return 'docs_'+c.replace(/-/g,'_');}
+function trim41(v){return String(v||'').replace(/^\s+|\s+$/g,'');}
+function db41(cb){
+ var q=indexedDB.open('ImprobableModuleDocs',1);
+ q.onupgradeneeded=function(e){
+  var d=e.target.result,st;
+  if(!d.objectStoreNames.contains('docs')){
+   st=d.createObjectStore('docs',{keyPath:'id',autoIncrement:true});
+   st.createIndex('module','module',{unique:false});
+  }else{
+   st=e.target.transaction.objectStore('docs');
+   if(!st.indexNames.contains('module'))st.createIndex('module','module',{unique:false});
+  }
+ };
+ q.onsuccess=function(e){cb(e.target.result);};
+ q.onerror=function(){alert("Le stockage local de l’iPad n’est pas accessible.");};
+}
+window.saveDoc41=function(cat){
+ var fi=document.getElementById('file-'+cat);
+ var f=(fi&&fi.files&&fi.files.length)?fi.files[0]:null;
+ if(!f){alert("Choisis d’abord une photo ou un PDF.");return false;}
+ var te=document.getElementById('title-'+cat),de=document.getElementById('date-'+cat);
+ var title=trim41(te?te.value:'')||f.name,date=de?de.value:'';
+ var rd=new FileReader();
+ rd.onerror=function(){alert("Impossible de lire ce document sur l’iPad.");};
+ rd.onload=function(ev){
+  db41(function(db){
+   var tx;
+   try{tx=db.transaction('docs','readwrite');}
+   catch(err){alert("Impossible d’enregistrer dans le stockage local.");return;}
+   var req=tx.objectStore('docs').add({
+    module:mod41(cat),title:title,name:f.name,type:f.type||'',
+    data:ev.target.result,date:date,created:(new Date()).getTime(),trashed:false
+   });
+   req.onerror=function(){alert("L’enregistrement du document a échoué.");};
+   tx.oncomplete=function(){
+    if(te)te.value=''; if(de)de.value=''; if(fi)fi.value='';
+    var se=document.getElementById('selected-'+cat);
+    if(se)se.innerHTML='Aucun fichier sélectionné.';
+    if(window.renderDoc27)window.renderDoc27(cat);
+    else if(window.renderAllDocs27)window.renderAllDocs27();
+    alert("Document enregistré localement sur cet iPad.");
+   };
+  });
+ };
+ rd.readAsDataURL(f);
+ return false;
+};
+function init41(){
+ for(var i=0;i<cats41.length;i++){
+  var cat=cats41[i],sec=document.getElementById(cat);
+  if(!sec)continue;
+  var btns=sec.getElementsByTagName('button'),b=null,j;
+  for(j=0;j<btns.length;j++){
+   if(trim41(btns[j].innerHTML)==='Ajouter'){b=btns[j];break;}
+  }
+  if(b){
+   b.removeAttribute('onclick');
+   b.onclick=(function(c){return function(e){
+    if(e&&e.preventDefault)e.preventDefault();
+    return saveDoc41(c);
+   };})(cat);
+  }
+ }
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init41);
+else init41();
+})();
+</script>
+
+
+<style>
+/* V2.10.42 — défilement tactile iPadOS */
+#docs,#check,#tech,#energy{
+ height:calc(100vh - 24px)!important;
+ max-height:calc(100vh - 24px)!important;
+ overflow-y:auto!important;
+ overflow-x:hidden!important;
+ -webkit-overflow-scrolling:touch!important;
+ box-sizing:border-box!important;
+ touch-action:pan-y!important;
+ padding-bottom:90px!important;
+}
+#docs .docmenu,#check .group{touch-action:pan-y!important}
+.techMenu42{margin-top:8px}
+.techRow42{display:flex;width:100%;align-items:center;justify-content:space-between;text-align:left;padding:13px 8px;border:0;border-bottom:1px solid #60717c;background:transparent;color:#fff;font:inherit}
+.techRow42 span{font-size:26px;color:#e8c47f}
+.techPanel42{display:none}
+#tech.techSub42 .techMenu42,#tech.techSub42>.modDocsBox,#tech.techSub42>h2{display:none}
+#tech.techSub42 .techPanel42.active{display:block}
+</style>
+<script>
+/* V2.10.42 — corrections demandées */
+(function(){
+function e42(id){return document.getElementById(id);}
+function clear42(id){var e=e42(id);if(e)e.value='';}
+
+/* Check-lists : réinitialisation fiable + stockage */
+window.resetChecks=function(){
+ var a=document.getElementsByClassName('ck'),i,k;
+ for(i=0;i<a.length;i++){
+  a[i].checked=false;k=a[i].getAttribute('data-k');
+  try{if(k)localStorage.removeItem('improbable_'+k);}catch(err){}
+ }
+ return false;
+};
+
+/* Journal : conserver historique puis vider la saisie */
+var oldSaveLog42=window.saveLog;
+window.saveLog=function(){
+ if(typeof oldSaveLog42==='function')oldSaveLog42();
+ clear42('ldate');clear42('route');clear42('engine');clear42('weather');clear42('notes');
+ var m=e42('logmsg');if(m){m.innerHTML=' Enregistré';setTimeout(function(){m.innerHTML='';},1200);}
+ return false;
+};
+
+/* Entretien : conserver historique/document puis vider la saisie */
+var oldSaveMaint42=window.saveMaint;
+window.saveMaint=function(){
+ var r=true;
+ if(typeof oldSaveMaint42==='function')r=oldSaveMaint42();
+ clear42('mitem');clear42('mdate');clear42('mhours');clear42('mnote');
+ var fi=e42('maintAttachFile');if(fi)fi.value='';
+ var fn=e42('maintAttachName');if(fn)fn.innerHTML='Aucun document sélectionné.';
+ return r===false?false:false;
+};
+
+/* Sous-menus Technique */
+window.openTech42=function(key){
+ var tech=e42('tech'),p=e42('tech42_'+key),all=document.getElementsByClassName('techPanel42'),i;
+ for(i=0;i<all.length;i++)all[i].className='techPanel42';
+ if(p)p.className='techPanel42 active';
+ if(tech){tech.className=(tech.className?tech.className+' ':'')+'techSub42';tech.scrollTop=0;}
+ var module='tech_'+key;
+ try{if(window.renderModuleDocs)window.renderModuleDocs(module);}catch(err){}
+};
+window.closeTech42=function(){
+ var tech=e42('tech'),all=document.getElementsByClassName('techPanel42'),i;
+ for(i=0;i<all.length;i++)all[i].className='techPanel42';
+ if(tech){tech.className=tech.className.replace(/\btechSub42\b/g,'').replace(/^\s+|\s+$/g,'');tech.scrollTop=0;}
+};
+
+/* Réinitialiser : neutralise un ancien handler éventuel */
+function bind42(){
+ var check=e42('check'),btns=check?check.getElementsByTagName('button'):[],i;
+ for(i=0;i<btns.length;i++){
+  if(String(btns[i].innerHTML).indexOf('Réinitialiser')>=0){
+   btns[i].onclick=function(ev){if(ev&&ev.preventDefault)ev.preventDefault();return window.resetChecks();};
+  }
+ }
+ /* Prépare les listes documents des sous-menus techniques */
+ var mods=['tech_boat','tech_saildrive','tech_engine','tech_electric','tech_rig','tech_plumbing','tech_raymarine'];
+ for(i=0;i<mods.length;i++){try{if(window.renderModuleDocs)window.renderModuleDocs(mods[i]);}catch(err){}}
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind42);else bind42();
 })();
 </script>
 
