@@ -2155,6 +2155,54 @@ input.catDocDate,
 })();
 </script>
 
+
+<!-- V2.10.48 : Urgences - vrai sélecteur de fichier tactile iPad -->
+<style>
+/* Sur l'ancien Safari, le champ FILE lui-même recouvre le bouton.
+   Le toucher iPad ouvre donc directement Photos/Fichiers. */
+.urgInner .modDocsAdd{
+  position:relative !important;
+}
+.urgInner .urgAdd46{
+  position:relative !important;
+  display:inline-block !important;
+  overflow:hidden !important;
+}
+.urgInner .urgFile46{
+  position:absolute !important;
+  left:auto !important;
+  right:0 !important;
+  top:0 !important;
+  width:125px !important;
+  height:58px !important;
+  opacity:0.01 !important;
+  z-index:999 !important;
+  font-size:50px !important;
+  cursor:pointer !important;
+}
+</style>
+<script>
+(function(){
+ function fix48(){
+  var mods=['sos_vhf','sos_homme_mer','sos_voie_eau','sos_incendie','sos_abandon'];
+  for(var i=0;i<mods.length;i++){
+   var f=document.getElementById('modDocFile_'+mods[i]);
+   if(!f)continue;
+   /* le changement de fichier appelle directement le moteur confirmé V44 */
+   (function(m,inp){
+    inp.onchange=function(){
+     if(!inp.files || !inp.files.length) return false;
+     return window.saveModuleDoc44(m,inp);
+    };
+   })(mods[i],f);
+  }
+ }
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',fix48,false);
+ else fix48();
+ document.addEventListener('click',function(){setTimeout(fix48,60);},false);
+})();
+</script>
+
 </body></html>
 <style>
 /* V2.10.40 — sélection native iPadOS */
