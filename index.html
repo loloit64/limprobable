@@ -6,9 +6,9 @@
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
-<!-- L'IMPROBABLE V2.12.1 — sauvegarde locale complète + icône iPad -->
+<!-- L'IMPROBABLE V2.12.2 — correction moteur Documents -->
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<title>L'Improbable — V2.12.1</title>
+<title>L'Improbable — V2.12.2</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#fff;background:#071017}
 
@@ -2944,317 +2944,9 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   color:#fff!important;
 }
 </style>
-<script>
-(function(){
-  var DB='ImprobableDocuments212';
-  var STORE='docs';
 
-  var CATS=[
-    {cat:'cat-id',key:'id'},
-    {cat:'cat-titles',key:'titles'},
-    {cat:'cat-work',key:'work'},
-    {cat:'cat-ins',key:'ins'},
-    {cat:'cat-engine',key:'engine'},
-    {cat:'cat-sail',key:'sail'},
-    {cat:'cat-elec',key:'elec'},
-    {cat:'cat-exp',key:'exp'},
-    {cat:'cat-equip',key:'equip'},
-    {cat:'cat-training',key:'training'},
-    {cat:'cat-misc',key:'misc'},
-    {cat:'cat-old',key:'old'}
-  ];
+<!-- V2.12.2: ancien moteur Documents supprimé -->
 
-  var selected={};
-
-  function E(id){return document.getElementById(id);}
-  function esc(s){
-    return String(s==null?'':s)
-      .replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;');
-  }
-  function fmtDate(d){
-    if(!d)return '';
-    var p=d.split('-');
-    return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : d;
-  }
-
-  function openDB(cb){
-    var q=indexedDB.open(DB,1);
-    q.onupgradeneeded=function(ev){
-      var db=ev.target.result;
-      if(!db.objectStoreNames.contains(STORE)){
-        var st=db.createObjectStore(STORE,{keyPath:'id',autoIncrement:true});
-        st.createIndex('category','category',{unique:false});
-      }
-    };
-    q.onsuccess=function(ev){cb(ev.target.result);};
-    q.onerror=function(){alert("Impossible d'ouvrir le stockage local Documents.");};
-  }
-
-  function prepare(key,input){
-    var status=E('docs91Status_'+key);
-    selected[key]=null;
-
-    if(!input || !input.files || !input.files.length){
-      if(status)status.innerHTML='Aucun fichier sélectionné.';
-      return;
-    }
-
-    var f=input.files[0];
-    selected[key]={file:f,data:null};
-
-    if(status)status.innerHTML=esc(f.name)+' — lecture…';
-
-    var rd=new FileReader();
-    rd.onload=function(ev){
-      if(!selected[key])return;
-      selected[key].data=ev.target.result;
-      if(status)status.innerHTML='✓ '+esc(f.name)+' — prêt';
-    };
-    rd.onerror=function(){
-      selected[key]=null;
-      if(status)status.innerHTML='Erreur de lecture du fichier.';
-    };
-    rd.readAsDataURL(f);
-  }
-
-  function save(cat,key){
-    var s=selected[key];
-
-    if(!s || !s.file){
-      alert('Choisis d’abord une photo ou un PDF.');
-      return false;
-    }
-    if(!s.data){
-      alert('Le document est encore en cours de lecture.');
-      return false;
-    }
-
-    var ti=E('docs91Title_'+key);
-    var di=E('docs91Date_'+key);
-    var title=ti ? ti.value.replace(/^\s+|\s+$/g,'') : '';
-    if(!title)title=s.file.name;
-
-    openDB(function(db){
-      var tx=db.transaction(STORE,'readwrite');
-
-      tx.objectStore(STORE).add({
-        category:cat,
-        title:title,
-        name:s.file.name,
-        type:s.file.type||'',
-        data:s.data,
-        date:di?di.value:'',
-        created:(new Date()).getTime()
-      });
-
-      tx.oncomplete=function(){
-        selected[key]=null;
-
-        if(ti)ti.value='';
-        if(di)di.value='';
-
-        var fi=E('docs91File_'+key);
-        if(fi)fi.value='';
-
-        var st=E('docs91Status_'+key);
-        if(st)st.innerHTML='Aucun fichier sélectionné.';
-
-        docs91Render(cat,key);
-      };
-
-      tx.onerror=function(){
-        alert("Le document n'a pas pu être enregistré.");
-      };
-    });
-
-    return false;
-  }
-
-  function remove(id,cat,key){
-    openDB(function(db){
-      var tx=db.transaction(STORE,'readwrite');
-      var st=tx.objectStore(STORE);
-      var g=st.get(id);
-      g.onsuccess=function(){
-        var x=g.result;
-        if(x){
-          x.trashed=true;
-          x.trashedAt=(new Date()).getTime();
-          st.put(x);
-        }
-      };
-      tx.oncomplete=function(){
-        docs91Render(cat,key);
-        if(typeof docs93RenderTrash==='function')docs93RenderTrash();
-      };
-    });
-    return false;
-  }
-
-  function openDoc(id){
-    openDB(function(db){
-      var r=db.transaction(STORE,'readonly').objectStore(STORE).get(id);
-      r.onsuccess=function(){
-        var x=r.result;
-        if(!x || !x.data)return;
-
-        try{
-          var parts=x.data.split(',');
-          var meta=parts[0]||'';
-          var b64=parts[1]||'';
-          var mime=x.type||'';
-          var mm=/data:([^;]+)/.exec(meta);
-          if(!mime && mm && mm[1])mime=mm[1];
-
-          var bin=atob(b64);
-          var bytes=new Uint8Array(bin.length);
-          var i;
-          for(i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
-
-          var blob=new Blob([bytes],{type:mime||'application/octet-stream'});
-          var url=(window.URL||window.webkitURL).createObjectURL(blob);
-
-          if((mime||'').indexOf('image/')===0){
-            if(typeof openAttachmentImage70==='function'){
-              openAttachmentImage70(url,x.name||x.title||'Photo');
-            }else{
-              window.location.href=url;
-            }
-          }else{
-            window.location.href=url;
-          }
-        }catch(e){
-          alert("Impossible d'ouvrir ce document.");
-        }
-      };
-    });
-
-    return false;
-  }
-
-  window.docs91Render=function(cat,key){
-    var host=E('docs91List_'+key);
-    var section=E(cat);
-
-    if(!host || !section)return;
-
-    /* Le document ajouté apparaît APRÈS les documents fixes déjà intégrés. */
-    section.appendChild(host);
-
-    openDB(function(db){
-      var idx=db.transaction(STORE,'readonly').objectStore(STORE).index('category');
-      var req=idx.openCursor(IDBKeyRange.only(cat));
-      var a=[];
-
-      req.onsuccess=function(ev){
-        var c=ev.target.result;
-        if(c){
-          if(!c.value.trashed)a.push(c.value);
-          c.continue();
-          return;
-        }
-
-        a.sort(function(x,y){return (y.created||0)-(x.created||0);});
-        host.innerHTML='';
-
-        for(var i=0;i<a.length;i++)(function(x){
-          var row=document.createElement('div');
-          row.className='doccard userdoc docs91Row';
-
-          var title=document.createElement('b');
-          var titleText=x.title||x.name||'Document';
-          var dateText=x.date?fmtDate(x.date):'';
-          title.appendChild(document.createTextNode(titleText+(dateText?' — '+dateText:'')));
-          row.appendChild(title);
-
-          if(x.name && x.name!==titleText){
-            var meta=document.createElement('div');
-            meta.className='muted';
-            meta.appendChild(document.createTextNode(x.name));
-            row.appendChild(meta);
-          }
-
-          row.appendChild(document.createElement('br'));
-
-          var o=document.createElement('button');
-          o.type='button';
-          o.className='action';
-          o.innerHTML='Ouvrir le document';
-          o.onclick=function(){return openDoc(x.id);};
-          row.appendChild(o);
-
-          var d=document.createElement('button');
-          d.type='button';
-          d.className='action docs92Delete';
-          d.innerHTML='Supprimer';
-          d.onclick=function(){
-            row.style.display='none';
-            return remove(x.id,cat,key);
-          };
-          row.appendChild(d);
-
-          host.appendChild(row);
-        })(a[i]);
-
-        var items=section.getElementsByClassName('item');
-        for(var j=0;j<items.length;j++){
-          var txt=(items[j].textContent||items[j].innerText||'');
-          if(txt.indexOf('Aucun document')>=0 || txt.indexOf('Aucune ancienne version')>=0){
-            items[j].style.display=a.length ? 'none' : '';
-          }
-        }
-
-        var menu=document.querySelector('.docmenu .doccat[data-catid="'+cat+'"]');
-        if(menu){
-          var meta=menu.getElementsByClassName('meta')[0];
-          var base=parseInt(menu.getAttribute('data-base')||'0',10);
-          var total=base+a.length;
-          var lastDate='';
-
-          if(a.length && a[a.length-1].date){
-            lastDate=fmtDate(a[a.length-1].date);
-          }
-
-          if(meta){
-            meta.innerHTML=total+' document'+(total>1?'s':'')
-              +(lastDate?'<br>Dernier : '+lastDate:(total?'<br>Document disponible':'<br>Aucun document'));
-          }
-        }
-      };
-    });
-  }
-
-  function init(){
-    for(var i=0;i<CATS.length;i++)(function(o){
-      var f=E('docs91File_'+o.key);
-      var b=E('docs91Save_'+o.key);
-
-      if(f){
-        f.onchange=function(){
-          prepare(o.key,this);
-        };
-      }
-
-      if(b){
-        b.onclick=function(){
-          return save(o.cat,o.key);
-        };
-      }
-
-      docs91Render(o.cat,o.key);
-    })(CATS[i]);
-  }
-
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',init,false);
-  }else{
-    init();
-  }
-})();
-</script>
 <!-- V2.10.93 — Documents : vraie corbeille avec restauration -->
 <style>
 #trashContent .docs93TrashRow{
@@ -5196,6 +4888,162 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     if(fi)fi.onchange=function(){return window.importImprobableBackup212(this.files);};
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,false);else init();
+})();
+</script>
+
+
+
+<!-- V2.12.2 — moteur Documents unique et propre -->
+<script id="v2122_documents_engine">
+(function(){
+  var DB='ImprobableDocuments212';
+  var STORE='docs';
+  var CATS=[
+    {cat:'cat-id',key:'id'},{cat:'cat-titles',key:'titles'},{cat:'cat-work',key:'work'},
+    {cat:'cat-ins',key:'ins'},{cat:'cat-engine',key:'engine'},{cat:'cat-sail',key:'sail'},
+    {cat:'cat-elec',key:'elec'},{cat:'cat-exp',key:'exp'},{cat:'cat-equip',key:'equip'},
+    {cat:'cat-training',key:'training'},{cat:'cat-misc',key:'misc'},{cat:'cat-old',key:'old'}
+  ];
+  var selected={};
+
+  function E(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function fmtDate(d){var p;if(!d)return '';p=String(d).split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:String(d);}
+
+  function openDB(cb){
+    var q=indexedDB.open(DB,1);
+    q.onupgradeneeded=function(ev){
+      var db=ev.target.result,st;
+      if(!db.objectStoreNames.contains(STORE)){
+        st=db.createObjectStore(STORE,{keyPath:'id',autoIncrement:true});
+        st.createIndex('category','category',{unique:false});
+      }else{
+        st=q.transaction.objectStore(STORE);
+        if(!st.indexNames.contains('category'))st.createIndex('category','category',{unique:false});
+      }
+    };
+    q.onsuccess=function(ev){cb(ev.target.result);};
+    q.onerror=function(){alert("Impossible d'ouvrir le stockage local Documents.");};
+  }
+
+  function prepare(key,input){
+    var status=E('docs91Status_'+key),f,rd;
+    selected[key]=null;
+    if(!input||!input.files||!input.files.length){if(status)status.innerHTML='Aucun fichier sélectionné.';return false;}
+    f=input.files[0];
+    selected[key]={file:f,data:null};
+    if(status)status.innerHTML=esc(f.name)+' — lecture…';
+    rd=new FileReader();
+    rd.onload=function(ev){
+      if(!selected[key])return;
+      selected[key].data=ev.target.result;
+      if(status)status.innerHTML='✓ '+esc(f.name)+' — prêt';
+    };
+    rd.onerror=function(){selected[key]=null;if(status)status.innerHTML='Erreur de lecture du fichier.';};
+    rd.readAsDataURL(f);
+    return false;
+  }
+
+  function save(cat,key){
+    var s=selected[key],ti,di,title;
+    if(!s||!s.file){alert('Choisis d’abord une photo ou un PDF.');return false;}
+    if(!s.data){alert('Le document est encore en cours de lecture.');return false;}
+    ti=E('docs91Title_'+key); di=E('docs91Date_'+key);
+    title=ti?ti.value.replace(/^\s+|\s+$/g,''):'';
+    if(!title)title=s.file.name;
+    openDB(function(db){
+      var tx,st;
+      try{
+        tx=db.transaction(STORE,'readwrite'); st=tx.objectStore(STORE);
+        st.add({category:cat,title:title,name:s.file.name,type:s.file.type||'',data:s.data,date:di?di.value:'',created:(new Date()).getTime(),trashed:false});
+      }catch(err){alert("Le document n'a pas pu être enregistré.");return;}
+      tx.oncomplete=function(){
+        var fi=E('docs91File_'+key),status=E('docs91Status_'+key);
+        selected[key]=null;
+        if(ti)ti.value=''; if(di)di.value=''; if(fi)fi.value='';
+        if(status)status.innerHTML='✓ Document ajouté';
+        window.docs91Render(cat,key);
+        setTimeout(function(){if(status)status.innerHTML='Aucun fichier sélectionné.';},1200);
+      };
+      tx.onerror=function(){alert("Le document n'a pas pu être enregistré dans cet iPad.");};
+      tx.onabort=function(){alert("L'enregistrement du document a été interrompu.");};
+    });
+    return false;
+  }
+
+  function remove(id,cat,key){
+    openDB(function(db){
+      var tx=db.transaction(STORE,'readwrite'),st=tx.objectStore(STORE),g=st.get(id);
+      g.onsuccess=function(){var x=g.result;if(x){x.trashed=true;x.trashedAt=(new Date()).getTime();st.put(x);}};
+      tx.oncomplete=function(){window.docs91Render(cat,key);if(typeof docs93RenderTrash==='function')docs93RenderTrash();if(typeof refreshTrashCounts112==='function')refreshTrashCounts112();};
+    });
+    return false;
+  }
+
+  function openDoc(id){
+    openDB(function(db){
+      var r=db.transaction(STORE,'readonly').objectStore(STORE).get(id);
+      r.onsuccess=function(){
+        var x=r.result,parts,meta,b64,mime,mm,bin,bytes,i,blob,url;
+        if(!x||!x.data)return;
+        try{
+          parts=x.data.split(',');meta=parts[0]||'';b64=parts[1]||'';mime=x.type||'';
+          mm=/data:([^;]+)/.exec(meta);if(!mime&&mm&&mm[1])mime=mm[1];
+          bin=atob(b64);bytes=new Uint8Array(bin.length);for(i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+          blob=new Blob([bytes],{type:mime||'application/octet-stream'});url=(window.URL||window.webkitURL).createObjectURL(blob);
+          if((mime||'').indexOf('image/')===0 && typeof openAttachmentImage70==='function')openAttachmentImage70(url,x.name||x.title||'Photo');
+          else window.location.href=url;
+        }catch(e){alert("Impossible d'ouvrir ce document.");}
+      };
+    });
+    return false;
+  }
+
+  window.docs91Render=function(cat,key){
+    var host=E('docs91List_'+key),section=E(cat);
+    if(!host||!section)return;
+    section.appendChild(host);
+    openDB(function(db){
+      var idx,req,a=[];
+      try{idx=db.transaction(STORE,'readonly').objectStore(STORE).index('category');req=idx.openCursor(IDBKeyRange.only(cat));}
+      catch(err){return;}
+      req.onsuccess=function(ev){
+        var c=ev.target.result,i,x,row,title,meta,chip,actions,o,d,items,j,txt,menu,m,total,lastDate='';
+        if(c){if(!c.value.trashed)a.push(c.value);c.continue();return;}
+        a.sort(function(p,q){return (q.created||0)-(p.created||0);});
+        host.innerHTML='';
+        for(i=0;i<a.length;i++){
+          x=a[i];row=document.createElement('div');row.className='doccard userdoc docs91Row u104-card';
+          title=document.createElement('div');title.className='u104-title';title.innerHTML=esc(x.title||x.name||'Document')+(x.date?' — '+esc(fmtDate(x.date)):'');row.appendChild(title);
+          chip=document.createElement('div');chip.className='u104-chip';chip.innerHTML='<span class="clip">📎</span><span>'+esc(x.name||x.title||'Document')+'</span>';row.appendChild(chip);
+          actions=document.createElement('div');actions.className='u104-actions';
+          o=document.createElement('button');o.type='button';o.innerHTML='Ouvrir le document';
+          (function(id){o.onclick=function(){return openDoc(id);};})(x.id);
+          d=document.createElement('button');d.type='button';d.className='docs92Delete u104-delete';d.innerHTML='Supprimer';
+          (function(id,catt,keyy){d.onclick=function(){return remove(id,catt,keyy);};})(x.id,cat,key);
+          actions.appendChild(o);actions.appendChild(d);row.appendChild(actions);host.appendChild(row);
+        }
+        items=section.getElementsByClassName('item');
+        for(j=0;j<items.length;j++){txt=(items[j].textContent||items[j].innerText||'');if(txt.indexOf('Aucun document')>=0||txt.indexOf('Aucune ancienne version')>=0)items[j].style.display=a.length?'none':'';}
+        menu=document.querySelector('.docmenu .doccat[data-catid="'+cat+'"]');
+        if(menu){m=menu.getElementsByClassName('meta')[0];total=a.length;if(a.length&&a[0].date)lastDate=fmtDate(a[0].date);if(m)m.innerHTML=total+' document'+(total>1?'s':'')+(lastDate?'<br>Dernier : '+lastDate:(total?'<br>Document disponible':'<br>Aucun document'));}
+      };
+    });
+  };
+
+  window.docs212Prepare=prepare;
+  window.docs212Save=save;
+
+  function bind(){
+    var i,o,f,b;
+    for(i=0;i<CATS.length;i++){
+      o=CATS[i]; f=E('docs91File_'+o.key); b=E('docs91Save_'+o.key);
+      if(f)(function(key,input){input.onchange=function(){return prepare(key,input);};})(o.key,f);
+      if(b)(function(cat,key,btn){btn.onclick=function(){return save(cat,key);};})(o.cat,o.key,b);
+      window.docs91Render(o.cat,o.key);
+    }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(bind,0);},false);else setTimeout(bind,0);
 })();
 </script>
 
