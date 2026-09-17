@@ -6,8 +6,9 @@
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
-<!-- L'IMPROBABLE V2.11 — nouvelle base stable après reconstruction des modules -->
-<title>L'Improbable — V2.12</title>
+<!-- L'IMPROBABLE V2.12.1 — sauvegarde locale complète + icône iPad -->
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<title>L'Improbable — V2.12.1</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#fff;background:#071017}
 
@@ -396,6 +397,15 @@ try{localStorage.removeItem('ImprobableDeletedFixedVhfDocs');}catch(e){}
 <section id="docs">
 <div class="docsTop94"><div><a class="back" href="#" onclick="closeAllDocumentViewers()">← Accueil</a><a class="back docback" href="javascript:void(0)" onclick="closeAllDocumentViewers();closeDocCat()">← Documents</a></div><button id="docsTrashTop94" onclick="return openModuleTrash96('docs')" type="button">🗑 Corbeille</button></div><h2>Documents</h2>
 <div class="docsubtitle muted">KISSCOOL — Dufour 32 Classic</div>
+<div id="backup212Box" class="backup212Box">
+  <div class="backup212Title">Sauvegarde locale de L’Improbable</div>
+  <div class="backup212Text">Photos, PDF, journal, entretien, technique, énergie, inventaire, urgences et corbeilles sont inclus.</div>
+  <button id="backup212Export" class="action" type="button">Exporter / partager la sauvegarde</button>
+  <button id="backup212ImportBtn" class="action backup212Restore" type="button">Restaurer une sauvegarde</button>
+  <input id="backup212File" class="backup212File" type="file" accept=".json,application/json">
+  <div id="backup212Status" class="muted backup212Status">La restauration remplace les données locales de cet appareil.</div>
+</div>
+
 <div class="group docmenu"><div class="docsummary"><b id="docTotalSummary">12 catégories — 0 document</b></div><div class="docsbackup"><input accept="application/json,.json" class="docfile" id="docBackupInput" onchange="importUserDocs(this.files)" type="file"/></div><a class="doccat" data-base="0" data-catid="cat-id" href="javascript:void(0)" onclick="openDocCat('cat-id')"><span class="ico">⚓</span><span class="name">1. Carte d’identité du bateau</span><span class="meta">0 document<br/>Aucun document</span><span class="arrow">›</span></a><a class="doccat" data-base="0" data-catid="cat-titles" href="javascript:void(0)" onclick="openDocCat('cat-titles')"><span class="ico">📝</span><span class="name">2. Actes &amp; titres de propriété</span><span class="meta">0 document<br/>Aucun document</span><span class="arrow">›</span></a><a class="doccat" data-base="0" data-catid="cat-work" href="javascript:void(0)" onclick="openDocCat('cat-work')"><span class="ico">🔧</span><span class="name">3. Factures &amp; travaux</span><span class="meta">0 document<br/>Aucun document</span><span class="arrow">›</span></a><a class="doccat" data-base="0" data-catid="cat-ins" href="javascript:void(0)" onclick="openDocCat('cat-ins')"><span class="ico">🛡</span><span class="name">4. Assurance</span><span class="meta">0 document<br/>Aucun document</span><span class="arrow">›</span></a><a class="doccat" data-base="0" data-catid="cat-engine" href="javascript:void(0)" onclick="openDocCat('cat-engine')"><span class="ico">⚙</span><span class="name">5. Manuel moteur</span><span class="meta">0 document<br/>Aucun document</span><span class="arrow">›</span></a><a class="doccat" data-base="0" data-catid="cat-sail" href="javascript:void(0)" onclick="openDocCat('cat-sail')"><span class="ico">◉</span><span class="name">6. Manuel saildrive</span><span class="meta">0 document<br/>Aucun document</span><span class="arrow">›</span></a><a class="doccat" data-base="0" data-catid="cat-elec" href="javascript:void(0)" onclick="openDocCat('cat-elec')"><span class="ico">▣</span><span class="name">7. Plans / schémas électriques</span><span class="meta">0 document<br/>Aucun document</span><span class="arrow">›</span></a><a class="doccat" data-base="0" data-catid="cat-exp" href="javascript:void(0)" onclick="openDocCat('cat-exp')"><span class="ico">▣</span><span class="name">8. Expertises du bateau</span><span class="meta">0 document<br/>Aucun document</span><span class="arrow">›</span></a><a class="doccat" data-base="0" data-catid="cat-equip" href="javascript:void(0)" onclick="openDocCat('cat-equip')"><span class="ico">⚓</span><span class="name">9. Équipements &amp; électronique</span><span class="meta">0 document<br/>Aucun document</span><span class="arrow">›</span></a><a class="doccat" data-base="0" data-catid="cat-training" href="javascript:void(0)" onclick="openDocCat('cat-training')"><span class="ico">▰</span><span class="name">10. Formation</span><span class="meta">0 document<br/>Aucun document</span><span class="arrow">›</span></a><a class="doccat" data-base="0" data-catid="cat-misc" href="javascript:void(0)" onclick="openDocCat('cat-misc')"><span class="ico">⚙</span><span class="name">11. Divers</span><span class="meta">0 document<br/>Aucun document</span><span class="arrow">›</span></a><a class="doccat" data-base="0" data-catid="cat-old" href="javascript:void(0)" onclick="openDocCat('cat-old')"><span class="ico">▰</span><span class="name">12. Anciennes versions (PDF)</span><span class="meta">0 document<br/>Aucun document</span><span class="arrow">›</span></a></div>
 <div class="group doccontent" id="cat-id"><h3>1. Carte d’identité du bateau</h3><div class="docaddbox"><b>Ajouter un document</b><input id="docs91Title_id" placeholder="Titre du document" type="text"/><input id="docs91Date_id" type="date"/><button class="action" onclick="document.getElementById('docs91File_id').click()" type="button">+ Photo ou PDF</button><input accept=".jpg,.jpeg,.png,.heic,.pdf,application/pdf" class="docfile" id="docs91File_id" type="file"/><div class="muted" id="docs91Status_id">Aucun fichier sélectionné.</div><button class="action" id="docs91Save_id" type="button">Ajouter</button><div class="muted">Le document reste enregistré localement sur cet iPad.</div></div><div class="userdocs" id="docs91List_id"></div><div class="item muted">Aucun document.</div></div>
 <div class="group doccontent" id="cat-titles"><h3>2. Actes &amp; titres de propriété</h3><div class="docaddbox"><b>Ajouter un document</b><input id="docs91Title_titles" placeholder="Titre du document" type="text"/><input id="docs91Date_titles" type="date"/><button class="action" onclick="document.getElementById('docs91File_titles').click()">+ Photo ou PDF</button><input accept=".jpg,.jpeg,.png,.heic,.pdf,application/pdf" class="docfile" id="docs91File_titles" type="file"/><div class="muted" id="docs91Status_titles">Aucun fichier sélectionné.</div><button class="action" id="docs91Save_titles" type="button">Ajouter</button><div class="muted">Le document reste enregistré localement sur cet iPad.</div></div><div class="userdocs" id="docs91List_titles"></div><div class="item muted">Aucun document.</div></div>
@@ -4939,5 +4949,254 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 <!-- /V2.12 clean -->
+
+
+<!-- V2.12.1 — Sauvegarde/restauration locale complète -->
+<style id="v2121_backup_style">
+#backup212Box{margin:10px 0 16px;padding:12px;border:1px solid #60717c;border-radius:9px;background:rgba(8,18,24,.72)}
+#backup212Box .backup212Title{font-size:17px;font-weight:700;color:#f1cf92;margin-bottom:5px}
+#backup212Box .backup212Text{font-size:13px;color:#dce7ed;line-height:1.35;margin-bottom:8px}
+#backup212Box .action{margin:5px 7px 3px 0}
+#backup212Box .backup212Restore{background:#16222a;color:#fff;border-color:#b88b4c;box-shadow:none}
+#backup212Box .backup212File{position:absolute;left:-9999px;width:1px;height:1px}
+#backup212Box .backup212Status{margin-top:7px;line-height:1.35}
+#docs.catopen #backup212Box{display:none!important}
+</style>
+<script id="v2121_backup_script">
+(function(){
+  var BACKUP_VERSION='2.12.1';
+  var KNOWN_DBS=[
+    'improbable_docs_v212',
+    'ImprobableModuleDocs212',
+    'ImprobableMaintDocs212',
+    'ImprobableDocuments212',
+    'ImprobableTechDocs212',
+    'ImprobableUrgDocs212',
+    'ImprobableJournalDocs212',
+    'ImprobableInventoryDocs212'
+  ];
+  var KNOWN_SCHEMA={
+    'improbable_docs_v212':{store:'docs',indexName:'cat',indexKey:'cat'},
+    'ImprobableModuleDocs212':{store:'docs',indexName:'module',indexKey:'module'},
+    'ImprobableMaintDocs212':{store:'docs'},
+    'ImprobableDocuments212':{store:'docs',indexName:'category',indexKey:'category'},
+    'ImprobableTechDocs212':{store:'docs',indexName:'module',indexKey:'module'},
+    'ImprobableUrgDocs212':{store:'docs',indexName:'module',indexKey:'module'},
+    'ImprobableJournalDocs212':{store:'docs'},
+    'ImprobableInventoryDocs212':{store:'docs'}
+  };
+
+  function E(id){return document.getElementById(id);}
+  function status(msg){var e=E('backup212Status');if(e)e.innerHTML=msg;}
+  function appKey(k){return /^improbable/i.test(String(k||''));}
+  function uniq(a){var out=[],seen={},i,k;for(i=0;i<a.length;i++){k=String(a[i]||'');if(k&&!seen[k]){seen[k]=1;out.push(k);}}return out;}
+  function two(n){return n<10?'0'+n:String(n);}
+  function stamp(){var d=new Date();return d.getFullYear()+'-'+two(d.getMonth()+1)+'-'+two(d.getDate())+'_'+two(d.getHours())+'-'+two(d.getMinutes());}
+
+  function collectLocalStorage(){
+    var o={},i,k;
+    try{
+      for(i=0;i<localStorage.length;i++){
+        k=localStorage.key(i);
+        if(appKey(k))o[k]=localStorage.getItem(k);
+      }
+    }catch(e){}
+    return o;
+  }
+
+  function readBlob(blob,cb){
+    var r=new FileReader();
+    r.onload=function(){cb({__improbable_blob__:1,type:blob.type||'',data:r.result});};
+    r.onerror=function(){cb(null);};
+    r.readAsDataURL(blob);
+  }
+
+  function serialRecord(x,cb){
+    var y={},keys=[],k,i=0;
+    for(k in x)if(Object.prototype.hasOwnProperty.call(x,k))keys.push(k);
+    function next(){
+      if(i>=keys.length){cb(y);return;}
+      var key=keys[i++],v=x[key];
+      if(typeof Blob!=='undefined' && v instanceof Blob){
+        readBlob(v,function(z){y[key]=z;next();});
+      }else{y[key]=v;next();}
+    }
+    next();
+  }
+
+  function listDbNames(cb){
+    var names=KNOWN_DBS.slice(0);
+    try{
+      if(indexedDB.databases){
+        indexedDB.databases().then(function(a){
+          var i,n;
+          for(i=0;i<a.length;i++){
+            n=a[i]&&a[i].name?a[i].name:'';
+            if(/^improbable/i.test(n))names.push(n);
+          }
+          cb(uniq(names));
+        }).catch(function(){cb(uniq(names));});
+        return;
+      }
+    }catch(e){}
+    cb(uniq(names));
+  }
+
+  function readStore(db,storeName,cb){
+    var tx,st,req,raw=[],schema={name:storeName,keyPath:null,autoIncrement:false,indexes:[]};
+    try{
+      tx=db.transaction(storeName,'readonly');st=tx.objectStore(storeName);
+      schema.keyPath=st.keyPath==null?null:st.keyPath;
+      schema.autoIncrement=!!st.autoIncrement;
+      var ii,idx;
+      for(ii=0;ii<st.indexNames.length;ii++){
+        idx=st.index(st.indexNames[ii]);
+        schema.indexes.push({name:idx.name,keyPath:idx.keyPath,unique:!!idx.unique,multiEntry:!!idx.multiEntry});
+      }
+      req=st.openCursor();
+      req.onsuccess=function(ev){var c=ev.target.result;if(c){raw.push(c.value);c.continue();return;}var out=[],i=0;function one(){if(i>=raw.length){cb({schema:schema,records:out});return;}serialRecord(raw[i++],function(z){out.push(z);one();});}one();};
+      req.onerror=function(){cb({schema:schema,records:[]});};
+    }catch(e){cb({schema:schema,records:[]});}
+  }
+
+  function readDatabase(name,cb){
+    var q;
+    try{q=indexedDB.open(name,1);}catch(e){cb({name:name,version:1,stores:[]});return;}
+    q.onupgradeneeded=function(ev){
+      var db=ev.target.result,sc=KNOWN_SCHEMA[name],st;
+      if(sc && !db.objectStoreNames.contains(sc.store)){
+        st=db.createObjectStore(sc.store,{keyPath:'id',autoIncrement:true});
+        if(sc.indexName){try{st.createIndex(sc.indexName,sc.indexKey,{unique:false});}catch(ex){}}
+      }
+    };
+    q.onerror=function(){cb({name:name,version:1,stores:[]});};
+    q.onsuccess=function(ev){
+      var db=ev.target.result,names=[],i,out={name:name,version:db.version||1,stores:[]};
+      for(i=0;i<db.objectStoreNames.length;i++)names.push(db.objectStoreNames[i]);
+      i=0;
+      function next(){
+        if(i>=names.length){try{db.close();}catch(e){}cb(out);return;}
+        readStore(db,names[i++],function(z){out.stores.push(z);next();});
+      }
+      next();
+    };
+  }
+
+  function collectDatabases(cb){
+    listDbNames(function(names){var out=[],i=0;function next(){if(i>=names.length){cb(out);return;}status('Sauvegarde… '+(i+1)+' / '+names.length);readDatabase(names[i++],function(z){out.push(z);next();});}next();});
+  }
+
+  function downloadBlob(blob,name){
+    var url=(window.URL||window.webkitURL).createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(function(){try{(window.URL||window.webkitURL).revokeObjectURL(url);}catch(e){}},5000);
+  }
+
+  function deliverBackup(payload){
+    var json=JSON.stringify(payload),name='LImprobable_Sauvegarde_'+stamp()+'.json',blob=new Blob([json],{type:'application/json'});
+    status('Sauvegarde prête — '+Math.max(1,Math.round(blob.size/1024))+' Ko.');
+    try{
+      if(window.File && navigator.share && navigator.canShare){
+        var f=new File([blob],name,{type:'application/json'});
+        if(navigator.canShare({files:[f]})){
+          navigator.share({files:[f],title:'Sauvegarde L’Improbable'}).then(function(){status('Sauvegarde partagée.');}).catch(function(err){if(!err||err.name!=='AbortError')downloadBlob(blob,name);});
+          return;
+        }
+      }
+    }catch(e){}
+    downloadBlob(blob,name);
+  }
+
+  window.exportImprobableBackup212=function(){
+    status('Préparation de la sauvegarde…');
+    var payload={format:'LImprobableBackup',version:BACKUP_VERSION,created:(new Date()).toISOString(),localStorage:collectLocalStorage(),databases:[]};
+    collectDatabases(function(dbs){payload.databases=dbs;deliverBackup(payload);});
+    return false;
+  };
+
+  function dataURLBlob(s,type){
+    try{var p=String(s||'').split(','),bin=atob(p[1]||''),arr=new Uint8Array(bin.length),i;for(i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);return new Blob([arr],{type:type||'application/octet-stream'});}catch(e){return new Blob([],{type:type||'application/octet-stream'});}
+  }
+  function reviveRecord(x){var y={},k,v;for(k in x)if(Object.prototype.hasOwnProperty.call(x,k)){v=x[k];if(v&&typeof v==='object'&&v.__improbable_blob__===1)y[k]=dataURLBlob(v.data,v.type);else y[k]=v;}return y;}
+
+  function ensureStores(dbInfo,cb){
+    var q=indexedDB.open(dbInfo.name);
+    q.onsuccess=function(ev){
+      var db=ev.target.result,missing=[],i,s;
+      for(i=0;i<dbInfo.stores.length;i++){s=dbInfo.stores[i].schema;if(!db.objectStoreNames.contains(s.name))missing.push(s);}
+      if(!missing.length){cb(db);return;}
+      var ver=(db.version||1)+1;try{db.close();}catch(e){}
+      var up=indexedDB.open(dbInfo.name,ver);
+      up.onupgradeneeded=function(e2){var d=e2.target.result,j,sc,st,k,ix;for(j=0;j<missing.length;j++){sc=missing[j];if(!d.objectStoreNames.contains(sc.name)){st=d.createObjectStore(sc.name,{keyPath:sc.keyPath==null?undefined:sc.keyPath,autoIncrement:!!sc.autoIncrement});for(k=0;k<(sc.indexes||[]).length;k++){ix=sc.indexes[k];try{st.createIndex(ix.name,ix.keyPath,{unique:!!ix.unique,multiEntry:!!ix.multiEntry});}catch(ex){}}}}};
+      up.onsuccess=function(e3){cb(e3.target.result);};
+      up.onerror=function(){cb(null);};
+    };
+    q.onupgradeneeded=function(ev){
+      var d=ev.target.result,i,sc,st,j,ix;
+      for(i=0;i<dbInfo.stores.length;i++){sc=dbInfo.stores[i].schema;if(!d.objectStoreNames.contains(sc.name)){st=d.createObjectStore(sc.name,{keyPath:sc.keyPath==null?undefined:sc.keyPath,autoIncrement:!!sc.autoIncrement});for(j=0;j<(sc.indexes||[]).length;j++){ix=sc.indexes[j];try{st.createIndex(ix.name,ix.keyPath,{unique:!!ix.unique,multiEntry:!!ix.multiEntry});}catch(ex){}}}}
+    };
+    q.onerror=function(){cb(null);};
+  }
+
+  function restoreStore(db,storeInfo,cb){
+    var tx,st,i,records=storeInfo.records||[];
+    try{
+      tx=db.transaction(storeInfo.schema.name,'readwrite');st=tx.objectStore(storeInfo.schema.name);st.clear();
+      for(i=0;i<records.length;i++)st.add(reviveRecord(records[i]));
+      tx.oncomplete=function(){cb();};tx.onerror=function(){cb();};tx.onabort=function(){cb();};
+    }catch(e){cb();}
+  }
+
+  function restoreDatabase(info,cb){
+    ensureStores(info,function(db){
+      if(!db){cb();return;}
+      var i=0;
+      function next(){if(i>=info.stores.length){try{db.close();}catch(e){}cb();return;}restoreStore(db,info.stores[i++],next);}
+      next();
+    });
+  }
+
+  function restoreAll(payload){
+    var k,i,keys=[],dbs=payload.databases||[];
+    try{
+      for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(appKey(k))keys.push(k);}
+      for(i=0;i<keys.length;i++)localStorage.removeItem(keys[i]);
+      var ls=payload.localStorage||{};for(k in ls)if(Object.prototype.hasOwnProperty.call(ls,k)&&appKey(k))localStorage.setItem(k,ls[k]);
+    }catch(e){}
+    i=0;
+    function next(){
+      if(i>=dbs.length){status('Restauration terminée. Rechargement…');setTimeout(function(){window.location.reload();},700);return;}
+      status('Restauration… '+(i+1)+' / '+dbs.length);
+      restoreDatabase(dbs[i++],next);
+    }
+    next();
+  }
+
+  window.importImprobableBackup212=function(files){
+    if(!files||!files[0])return false;
+    if(!confirm('Restaurer cette sauvegarde ? Les données locales actuelles de L’Improbable sur cet appareil seront remplacées.')){try{E('backup212File').value='';}catch(e){}return false;}
+    status('Lecture de la sauvegarde…');
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var p=JSON.parse(r.result);
+        if(!p||p.format!=='LImprobableBackup'||!p.databases){throw new Error('format');}
+        restoreAll(p);
+      }catch(e){status('Sauvegarde invalide ou incompatible.');alert('Ce fichier n’est pas une sauvegarde complète de L’Improbable.');}
+    };
+    r.onerror=function(){status('Impossible de lire cette sauvegarde.');};
+    r.readAsText(files[0]);
+    return false;
+  };
+
+  function init(){
+    var ex=E('backup212Export'),im=E('backup212ImportBtn'),fi=E('backup212File');
+    if(ex)ex.onclick=window.exportImprobableBackup212;
+    if(im)im.onclick=function(){if(fi){fi.value='';fi.click();}return false;};
+    if(fi)fi.onchange=function(){return window.importImprobableBackup212(this.files);};
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,false);else init();
+})();
+</script>
 
 </body></html>
