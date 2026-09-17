@@ -6,9 +6,9 @@
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
-<!-- L'IMPROBABLE V2.12.2 — correction moteur Documents -->
+<!-- L'IMPROBABLE V2.12.3 — réparation stockage IndexedDB Documents -->
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<title>L'Improbable — V2.12.2</title>
+<title>L'Improbable — V2.12.3</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#fff;background:#071017}
 
@@ -3007,7 +3007,17 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : d;
   }
   function openDB93(cb){
-    var q=indexedDB.open(DB,1);
+    var q=indexedDB.open(DB,2);
+    q.onupgradeneeded=function(ev){
+      var db=ev.target.result,st;
+      if(!db.objectStoreNames.contains(STORE)){
+        st=db.createObjectStore(STORE,{keyPath:'id',autoIncrement:true});
+        st.createIndex('category','category',{unique:false});
+      }else{
+        st=q.transaction.objectStore(STORE);
+        if(!st.indexNames.contains('category'))st.createIndex('category','category',{unique:false});
+      }
+    };
     q.onsuccess=function(ev){cb(ev.target.result);};
     q.onerror=function(){alert("Impossible d'ouvrir la corbeille Documents.");};
   }
@@ -3341,7 +3351,15 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }
 
   function openIDB96(dbName,store,cb){
-    var q=indexedDB.open(dbName,1);
+    var ver=(dbName==='ImprobableDocuments212')?2:1;
+    var q=indexedDB.open(dbName,ver);
+    q.onupgradeneeded=function(ev){
+      var db=ev.target.result,st;
+      if(dbName==='ImprobableDocuments212' && !db.objectStoreNames.contains('docs')){
+        st=db.createObjectStore('docs',{keyPath:'id',autoIncrement:true});
+        st.createIndex('category','category',{unique:false});
+      }
+    };
     q.onsuccess=function(ev){cb(ev.target.result);};
   }
 
@@ -3763,7 +3781,17 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     {cat:'cat-equip',key:'equip'},{cat:'cat-training',key:'training'},{cat:'cat-misc',key:'misc'},{cat:'cat-old',key:'old'}
   ];
   function openDBDocs(cb){
-    var q=indexedDB.open('ImprobableDocuments212',1);
+    var q=indexedDB.open('ImprobableDocuments212',2);
+    q.onupgradeneeded=function(ev){
+      var db=ev.target.result,st;
+      if(!db.objectStoreNames.contains('docs')){
+        st=db.createObjectStore('docs',{keyPath:'id',autoIncrement:true});
+        st.createIndex('category','category',{unique:false});
+      }else{
+        st=q.transaction.objectStore('docs');
+        if(!st.indexNames.contains('category'))st.createIndex('category','category',{unique:false});
+      }
+    };
     q.onsuccess=function(e){cb(e.target.result);};
     q.onerror=function(){alert('Impossible d’ouvrir le stockage Documents.');};
   }
@@ -4539,9 +4567,21 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     var done=false;
     function finish(n){if(done)return;done=true;cb(n||0);}
     try{
-      var q=indexedDB.open(dbName,1);
+      var ver=(dbName==='ImprobableDocuments212')?2:1;
+      var q=indexedDB.open(dbName,ver);
       q.onerror=function(){finish(0);};
-      q.onupgradeneeded=function(){};
+      q.onupgradeneeded=function(ev){
+        var db=ev.target.result,st;
+        if(dbName==='ImprobableDocuments212'){
+          if(!db.objectStoreNames.contains('docs')){
+            st=db.createObjectStore('docs',{keyPath:'id',autoIncrement:true});
+            st.createIndex('category','category',{unique:false});
+          }else{
+            st=q.transaction.objectStore('docs');
+            if(!st.indexNames.contains('category'))st.createIndex('category','category',{unique:false});
+          }
+        }
+      };
       q.onsuccess=function(ev){
         var db=ev.target.result;
         try{
@@ -4753,7 +4793,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
   function readDatabase(name,cb){
     var q;
-    try{q=indexedDB.open(name,1);}catch(e){cb({name:name,version:1,stores:[]});return;}
+    try{q=indexedDB.open(name);}catch(e){cb({name:name,version:1,stores:[]});return;}
     q.onupgradeneeded=function(ev){
       var db=ev.target.result,sc=KNOWN_SCHEMA[name],st;
       if(sc && !db.objectStoreNames.contains(sc.store)){
@@ -4893,7 +4933,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 
 
-<!-- V2.12.2 — moteur Documents unique et propre -->
+<!-- V2.12.3 — moteur Documents unique + réparation automatique de la base locale -->
 <script id="v2122_documents_engine">
 (function(){
   var DB='ImprobableDocuments212';
@@ -4911,7 +4951,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   function fmtDate(d){var p;if(!d)return '';p=String(d).split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:String(d);}
 
   function openDB(cb){
-    var q=indexedDB.open(DB,1);
+    var q=indexedDB.open(DB,2);
     q.onupgradeneeded=function(ev){
       var db=ev.target.result,st;
       if(!db.objectStoreNames.contains(STORE)){
